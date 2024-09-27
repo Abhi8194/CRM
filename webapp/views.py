@@ -3,6 +3,7 @@ from .forms import *
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
+from .models import *
 
 
 
@@ -44,7 +45,9 @@ def my_login(request):
 # dasboard 
 @login_required(login_url='login')
 def dashboard(request):
-    return render(request,'webapp/dashboard.html')
+    my_records = Record.objects.all()
+    context = {"records": my_records}
+    return render(request,'webapp/dashboard.html', context=context)
 
 
 # user logout

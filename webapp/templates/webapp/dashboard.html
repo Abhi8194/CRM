@@ -2,6 +2,13 @@
 
 {% block content %}
 
-    <h1>welcome to dashboard page {{user}}</h1>
+    <h3> Welcome to dashboard page! {{user}}</h3>
+    {% for record in records %}
+
+    {{ record.id}}
+    {{record.first_name}}
+    {{record.last_name}}
+
+    {% endfor %}
 
 {% endblock %}
