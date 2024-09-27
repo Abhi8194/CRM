@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .forms import *
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -17,6 +18,7 @@ def register(request):
         form = CreateUserForm(request.POST)
         if form.is_valid():
             form.save()
+            return redirect('login')
     
     context = {'form':form}
     return render(request,'webapp/register.html',context=context)
@@ -33,6 +35,20 @@ def my_login(request):
             user = authenticate(request,username=username,password=password)
             if user is not None:
                 auth.login(request,user)
+                return redirect('dashboard')
    
     context = {'form2': form}
     return render(request,'webapp/my-login.html',context=context)
+
+
+# dasboard 
+@login_required(login_url='login')
+def dashboard(request):
+    return render(request,'webapp/dashboard.html')
+
+
+# user logout
+
+def user_logout(request):
+    auth.logout(request)
+    return redirect('login')
